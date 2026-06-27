@@ -224,7 +224,17 @@ export function MotionEffects({
       </svg>
 
       {/* Main Content */}
-      <div ref={containerRef} style={{ transition: "filter 0.05s ease-out " }}>
+      <div
+        ref={containerRef}
+        style={{
+          transition: "filter 0.05s ease-out",
+          transform: "translate3d(0, 0, 0)",
+          WebkitTransform: "translate3d(0, 0, 0)",
+          backfaceVisibility: "hidden",
+          WebkitBackfaceVisibility: "hidden",
+          willChange: "filter",
+        }}
+      >
         {children}
       </div>
 
@@ -244,6 +254,11 @@ export function MotionEffects({
           opacity: 1,
           maskImage: "linear-gradient(to bottom, black 0%, rgba(0,0,0,0.8) 40%, transparent 100%)",
           WebkitMaskImage: "linear-gradient(to bottom, black 0%, rgba(0,0,0,0.8) 40%, transparent 100%)",
+          transform: "translate3d(0, 0, 0)",
+          WebkitTransform: "translate3d(0, 0, 0)",
+          backfaceVisibility: "hidden",
+          WebkitBackfaceVisibility: "hidden",
+          willChange: "backdrop-filter",
         }}
       />
 
@@ -263,6 +278,11 @@ export function MotionEffects({
           opacity: 1,
           maskImage: "linear-gradient(to top, black 0%, rgba(0,0,0,0.8) 40%, transparent 100%)",
           WebkitMaskImage: "linear-gradient(to top, black 0%, rgba(0,0,0,0.8) 40%, transparent 100%)",
+          transform: "translate3d(0, 0, 0)",
+          WebkitTransform: "translate3d(0, 0, 0)",
+          backfaceVisibility: "hidden",
+          WebkitBackfaceVisibility: "hidden",
+          willChange: "backdrop-filter",
         }}
       />
     </>
