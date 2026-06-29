@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router"
 import { Button } from "@/components/ui/button"
-import { Mail, Briefcase, GraduationCap, FolderGit2, ExternalLink, Phone, Sparkles } from "lucide-react"
+import { Mail, Briefcase, GraduationCap, FolderGit2, ExternalLink, Phone, Sparkles, DownloadIcon } from "lucide-react"
 import { link } from "fs"
 
 export const Route = createFileRoute("/")({ component: Portfolio })
@@ -214,9 +214,17 @@ function Portfolio() {
           <div>
             <div className="size-24 bg-white rounded-full mb-12" />
           </div>
-          <div>
-            <h1 className="text-6xl font-bold tracking-tight">{portfolioData.name}</h1>
-            <p className="text-lg text-muted-foreground mt-2">{portfolioData.tagline} · {portfolioData.location}</p>
+          <div className="flex flex-row justify-between">
+            <div>
+              <h1 className="text-5xl font-bold tracking-tight">{portfolioData.name}</h1>
+              <p className="text-lg text-muted-foreground mt-2">{portfolioData.tagline} · {portfolioData.location}</p>
+            </div>
+            <Button asChild className="gap-2">
+              <a href="medr-resume.pdf" download="medr-resume.pdf">
+                <DownloadIcon className="w-4 h-4" />
+                Resume
+              </a>
+            </Button>
           </div>
 
           <div className="flex flex-wrap items-center gap-4 text-sm mt-2">
