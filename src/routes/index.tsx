@@ -1,10 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router"
 import { Button } from "@/components/ui/button"
-import { Mail, Briefcase, GraduationCap, FolderGit2, ExternalLink, Phone } from "lucide-react"
-
+import { Mail, Briefcase, GraduationCap, FolderGit2, ExternalLink, Phone, Sparkles } from "lucide-react"
+import { link } from "fs"
 
 export const Route = createFileRoute("/")({ component: Portfolio })
-
 
 function GithubIcon(props: React.SVGProps<SVGSVGElement>) {
   return (
@@ -21,14 +20,6 @@ function LinkedinIcon(props: React.SVGProps<SVGSVGElement>) {
       <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
       <rect width="4" height="12" x="2" y="9" />
       <circle cx="4" cy="4" r="2" />
-    </svg>
-  )
-}
-
-function TwitterIcon(props: React.SVGProps<SVGSVGElement>) {
-  return (
-    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" {...props}>
-      <path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z" />
     </svg>
   )
 }
@@ -69,17 +60,36 @@ const portfolioData = {
       technologies: ["Logistics", "Document Management", "Client Relations"]
     }
   ],
-  projects: [
+  academicProjects: [
     {
       id: "p1",
       title: "Management Information System for Darangan Water Service Development Cooperative",
+      link: "https://dwsdc-mis.vercel.app/customer/",
       date: "Academic — Capstone Project",
       role: "Lead Developer",
       school: "University of Rizal System",
       description: "Led full-stack development using NextJS, managing the entire software development lifecycle (SDLC) from UI/UX design to database management. Applied SDLC principles to manage the project from conceptualization to deployment. The final project was approved, defended, and published in the university library's hardbound collection.",
-
       technologies: ["Next.js", "UI/UX Design", "Database Management", "SDLC"]
     }
+  ],
+  personalProjects: [
+    {
+      id: "pp2",
+      title: "LoreHub",
+      date: "School Project",
+      link: "https://thispoppyv2.github.io/finalgenshin/",
+      description: "My Final Project submission to my finals in Web Development Subject in my university. No AI and frameworks was used in this project since this was my first time touching HTML and CSS.",
+      technologies: ["HTML", "CSS", "JavaScript"]
+    },
+    {
+      id: "pp1",
+      title: "Genshin Impact Character Globe  ",
+      date: "Personal Project",
+      link: "https://genshinpaspas.vercel.app/",
+      description: "A project that were made for showcasing in a small university event. Showcasing Genshin Impact Characters skills and talents.",
+      technologies: ["Next.js", "React", "TypeScript"]
+    },
+
   ],
   education: [
     {
@@ -97,7 +107,6 @@ const portfolioData = {
       school: "Angono National High School",
       date: "2020 - 2022",
       description: "Completed a technical-vocational track specializing in ICT with a focus on Animation.",
-
     }
   ],
   certifications: [
@@ -132,7 +141,6 @@ function LinkPreview({ url }: { url: string }) {
         <ExternalLink className="w-3 h-3" />
         {domain}
       </a>
-
     </span>
   )
 }
@@ -140,7 +148,7 @@ function LinkPreview({ url }: { url: string }) {
 function SectionCard({ item }: { item: any }) {
   return (
     <div className="flex flex-col sm:flex-row gap-4 p-4 rounded-xl border bg-card text-card-foreground shadow-sm transition-all hover:shadow-md">
-      {/* Thumbnail — full width on mobile, fixed sidebar on sm+ */}
+      {/* Thumbnail */}
       {item.thumbnail && (
         <div className="shrink-0 w-full sm:w-32">
           <img
@@ -153,34 +161,36 @@ function SectionCard({ item }: { item: any }) {
 
       {/* Content */}
       <div className="flex flex-col flex-grow min-w-0">
-        {/* Title row — wraps naturally, date stacks below on mobile */}
+        {/* Title row */}
         <div className="flex flex-col xs:flex-row xs:justify-between xs:items-start gap-0.5 mb-1">
           <h3 className="font-semibold text-base sm:text-lg leading-snug flex flex-wrap items-center gap-2 min-w-0">
             <span className="break-words">{item.title || item.degree}</span>
             {item.link && <LinkPreview url={item.link} />}
           </h3>
-          <span className="text-xs sm:text-sm text-muted-foreground whitespace-nowrap  shrink-0">
+          <span className="text-xs sm:text-sm text-muted-foreground whitespace-nowrap shrink-0">
             {item.date}
           </span>
         </div>
 
         {/* School / Company + optional GWA badge */}
-        <div className="flex flex-wrap items-center gap-2 mb-2">
-          <h4 className="text-sm font-medium text-primary">
-            {item.company || item.school || "Personal Project"}
-          </h4>
-          {item.gwa && (
-            <span className="inline-flex items-center gap-1 rounded-md bg-primary/10 px-2 py-0.5 text-xs font-semibold text-primary ring-1 ring-inset ring-primary/20">
-              GWA {item.gwa}
-            </span>
-          )}
-        </div>
+        {(item.company || item.school || item.role) && (
+          <div className="flex flex-wrap items-center gap-2 mb-2">
+            <h4 className="text-sm font-medium text-primary">
+              {item.company || item.school || item.role}
+            </h4>
+            {item.gwa && (
+              <span className="inline-flex items-center gap-1 rounded-md bg-primary/10 px-2 py-0.5 text-xs font-semibold text-primary ring-1 ring-inset ring-primary/20">
+                GWA {item.gwa}
+              </span>
+            )}
+          </div>
+        )}
 
         <p className="text-sm text-muted-foreground mb-4 leading-relaxed">
           {item.description}
         </p>
 
-        {/* Technologies (Optional) */}
+        {/* Technologies */}
         {item.technologies && (
           <div className="flex flex-wrap gap-2 mt-auto">
             {item.technologies.map((tech: string) => (
@@ -201,7 +211,6 @@ function Portfolio() {
 
         {/* Header / Hero Section */}
         <section className="flex flex-col gap-4">
-
           <div>
             <div className="size-24 bg-white rounded-full mb-12" />
           </div>
@@ -222,15 +231,11 @@ function Portfolio() {
           <div className="flex gap-3 mt-4">
             {portfolioData.socials.map((social) => {
               const Icon = social.icon
-
               return (
                 <Button key={social.name} variant="secondary" size="icon" asChild>
-
                   <a href={social.url} target="_blank" rel="noreferrer" aria-label={social.name}>
                     <Icon className="w-4 h-4" />
-
                   </a>
-
                 </Button>
               )
             })}
@@ -239,8 +244,7 @@ function Portfolio() {
 
         {/* Work Experience */}
         <section className="flex flex-col gap-6">
-          <div className="flex  items-center  pb-2 relative ">
-
+          <div className="flex items-center pb-2 relative">
             <h2 className="text-4xl font-semibold tracking-tight">Experience</h2>
           </div>
           <div className="flex flex-col gap-4">
@@ -250,13 +254,30 @@ function Portfolio() {
           </div>
         </section>
 
-        {/* Academic / Personal Projects */}
+        {/* Academic Projects */}
         <section className="flex flex-col gap-6">
-          <div className="flex items-center gap-2  pb-2">
-            <h2 className="text-4xl font-semibold tracking-tight">Projects</h2>
+          <div className="flex items-center gap-2 pb-2">
+            <h2 className="text-4xl font-semibold tracking-tight">Featured Projects</h2>
           </div>
           <div className="flex flex-col gap-4">
-            {portfolioData.projects.map((project) => (
+            {portfolioData.academicProjects.map((project) => (
+              <SectionCard key={project.id} item={project} />
+            ))}
+          </div>
+        </section>
+
+        {/* Personal & Side Projects */}
+        <section className="flex flex-col gap-6">
+          <div className="flex flex-col gap-1 pb-2">
+            <h2 className="text-4xl font-semibold tracking-tight flex items-center gap-2">
+              Side Quests
+            </h2>
+            <p className="text-sm text-muted-foreground">
+              A collection of small tools and experiments built purely for fun, exploratory learning, and scratch-building custom solutions.
+            </p>
+          </div>
+          <div className="flex flex-col gap-4">
+            {portfolioData.personalProjects.map((project) => (
               <SectionCard key={project.id} item={project} />
             ))}
           </div>
@@ -264,7 +285,7 @@ function Portfolio() {
 
         {/* Education */}
         <section className="flex flex-col gap-6">
-          <div className="flex items-center gap-2  pb-2">
+          <div className="flex items-center gap-2 pb-2">
             <h2 className="text-4xl font-semibold tracking-tight">Education</h2>
           </div>
           <div className="flex flex-col gap-4">
