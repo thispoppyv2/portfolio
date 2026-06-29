@@ -214,12 +214,13 @@ function Portfolio() {
           <div>
             <div className="size-24 bg-white rounded-full mb-12" />
           </div>
-          <div className="flex flex-row justify-between">
+          <div className="flex flex-row justify-between max-md:flex-col gap-3">
             <div>
               <h1 className="text-5xl font-bold tracking-tight">{portfolioData.name}</h1>
               <p className="text-lg text-muted-foreground mt-2">{portfolioData.tagline} · {portfolioData.location}</p>
             </div>
             <Button asChild className="gap-2">
+
               <a href="medr-resume.pdf" download="medr-resume.pdf">
                 <DownloadIcon className="w-4 h-4" />
                 Resume
